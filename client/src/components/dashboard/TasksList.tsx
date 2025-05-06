@@ -8,7 +8,7 @@ interface TasksListProps {
 const TasksList: React.FC<TasksListProps> = ({ tasks }) => {
   return (
     <div className="terminal-window p-4">
-      <h2 className="text-primary font-orbitron text-md mb-4">TASKS</h2>
+      <h2 className="text-primary font-orbitron text-md mb-4 title-caps">TASKS</h2>
       <ul className="space-y-3 font-fira text-xs">
         {tasks.map((task) => (
           <li key={task.id} className="border-b border-white/10 pb-2">

@@ -67,11 +67,25 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-orbitron;
+    @apply font-orbitron tracking-wide;
+    letter-spacing: 0.05em;
+  }
+
+  /* Ajuste específico para títulos em caps lock */
+  h2.title-caps, h3.title-caps, .title-caps {
+    @apply tracking-wider;
+    letter-spacing: 0.12em;
   }
 
   code, pre {
     @apply font-fira;
+  }
+  
+  /* Correção para texto com quebras de linha bugadas */
+  .formatted-text br[data-replit-metadata] {
+    @apply block;
+    content: "";
+    margin-top: 0.75rem;
   }
 }
 

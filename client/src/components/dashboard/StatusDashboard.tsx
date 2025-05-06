@@ -33,7 +33,7 @@ const StatusDashboard: React.FC<StatusDashboardProps> = ({ courses, weeklySchedu
   return (
     <div className="terminal-window p-6">
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-primary font-orbitron text-lg">CONTROLE DE FALTAS</h2>
+        <h2 className="text-primary font-orbitron text-lg title-caps">CONTROLE DE FALTAS</h2>
         <span className="text-white/70 font-fira text-xs">{period}</span>
       </div>
 
@@ -74,7 +74,7 @@ const StatusDashboard: React.FC<StatusDashboardProps> = ({ courses, weeklySchedu
         {/* Attendance Summary */}
         <div className="lg:col-span-2">
           <div className="terminal-window bg-card h-full rounded-lg p-4 border border-primary/30">
-            <h3 className="text-primary font-orbitron text-md mb-4">TOTAL</h3>
+            <h3 className="text-primary font-orbitron text-md mb-4 title-caps">TOTAL</h3>
             <ul className="space-y-2 font-fira text-xs">
               {courses.map((course) => (
                 <li key={course.id} className="flex justify-between">

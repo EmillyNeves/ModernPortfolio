@@ -74,7 +74,7 @@ const WelcomeBanner: React.FC = () => {
           </h1>
           <p
             ref={textRef}
-            className="font-fira text-white/80 max-w-md mt-6 text-sm hacking-text"
+            className="font-fira text-white/80 max-w-md mt-6 text-sm hacking-text formatted-text"
           >
             Transforme sua jornada acadêmica em uma experiência dinâmica e interativa.
             <br />
