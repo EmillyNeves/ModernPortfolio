@@ -6,6 +6,7 @@ import Home from "@/pages/Home";
 import Attendance from "@/pages/Attendance";
 import Notes from "@/pages/Notes";
 import Progress from "@/pages/Progress";
+import Analytics from "@/pages/Analytics";
 import Developer from "@/pages/Developer";
 import NotFound from "@/pages/not-found";
 
@@ -16,6 +17,7 @@ function Router() {
       <Route path="/attendance" component={Attendance} />
       <Route path="/notes" component={Notes} />
       <Route path="/progress" component={Progress} />
+      <Route path="/analytics" component={Analytics} />
       <Route path="/developer" component={Developer} />
       <Route component={NotFound} />
     </Switch>
