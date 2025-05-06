@@ -1,5 +1,5 @@
 import { db } from "@db";
-import { eq } from "drizzle-orm";
+import { eq, desc } from "drizzle-orm";
 import * as schema from "@shared/schema";
 
 class Storage {
@@ -66,14 +66,14 @@ class Storage {
   // Attendance methods
   async getAttendance(): Promise<schema.Attendance[]> {
     return await db.query.attendance.findMany({
-      orderBy: [{ date: "desc" }],
+      orderBy: (attendance) => [desc(attendance.date)],
     });
   }
 
   async getAttendanceByCourse(courseId: number): Promise<schema.Attendance[]> {
     return await db.query.attendance.findMany({
       where: eq(schema.attendance.courseId, courseId),
-      orderBy: [{ date: "desc" }],
+      orderBy: (attendance) => [desc(attendance.date)],
     });
   }
 
