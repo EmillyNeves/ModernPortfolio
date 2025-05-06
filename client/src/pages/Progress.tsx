@@ -4,6 +4,7 @@ import { apiRequest } from "@/lib/queryClient";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { BarChart2, TrendingUp, Award, Target, BookOpen } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
+import LoadingBalloon from "@/components/animations/LoadingBalloon";
 
 // Minimal version of recharts for the status dashboard
 import {
@@ -46,7 +47,7 @@ const ProgressPage: React.FC = () => {
   if (isLoading) {
     return (
       <div className="flex justify-center items-center h-[80vh]">
-        <div className="text-primary font-orbitron text-xl animate-pulse">LOADING_PROGRESS_DATA...</div>
+        <LoadingBalloon message="CARREGANDO PROGRESSO" />
       </div>
     );
   }
