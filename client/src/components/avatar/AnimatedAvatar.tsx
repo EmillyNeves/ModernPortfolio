@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { User } from "@shared/schema";
 import { AvatarConfig } from "./AvatarEditor";
+import BalloonAvatar from "./balloonAvatars";
 
 interface AnimatedAvatarProps {
   user: User;
@@ -254,20 +255,64 @@ const AnimatedAvatar: React.FC<AnimatedAvatarProps> = ({
     return svg;
   };
 
+  // Function to map avatarConfig properties to BalloonAvatar props
+  const mapConfigToBalloonProps = () => {
+    if (!avatarConfig) return null;
+    
+    // Map body type to shape
+    const shapeMap = {
+      'athletic': 'round',
+      'slim': 'oval',
+      'average': 'square'
+    };
+    
+    // Map hair style to pattern
+    const patternMap = {
+      'short': 'dots',
+      'long': 'stripes',
+      'curly': 'spiral',
+      'afro': 'stars',
+      'bald': 'none'
+    };
+    
+    // Map outfit to decoration
+    const decorationMap = {
+      'formal': 'ribbons',
+      'casual': 'bows',
+      'sporty': 'confetti',
+      'geek': 'initials',
+      'cyberpunk': 'neon'
+    };
+    
+    return {
+      color: avatarConfig.skinTone,
+      detailColor: avatarConfig.hairColor,
+      pattern: patternMap[avatarConfig.hairStyle as keyof typeof patternMap] || 'dots',
+      shape: shapeMap[avatarConfig.bodyType as keyof typeof shapeMap] || 'round',
+      decoration: decorationMap[avatarConfig.outfit as keyof typeof decorationMap] || 'none',
+      accessories: avatarConfig.accessories
+    };
+  };
+  
   return (
     <motion.div
       className={sizeClasses[size]}
       animate={showAnimation ? animation : undefined}
       variants={avatarAnimations}
     >
-      <Avatar className={`${sizeClasses[size]} border-2 border-primary ${className}`}>
-        {avatarConfig && (
-          <AvatarImage src={generateAvatarSVG()} alt={user.username} />
-        )}
-        <AvatarFallback className="text-primary font-fira">
-          {user.username.substring(0, 2).toUpperCase()}
-        </AvatarFallback>
-      </Avatar>
+      {avatarConfig && mapConfigToBalloonProps() ? (
+        <BalloonAvatar 
+          {...mapConfigToBalloonProps()!}
+          size={size}
+          className={className}
+        />
+      ) : (
+        <Avatar className={`${sizeClasses[size]} border-2 border-primary ${className}`}>
+          <AvatarFallback className="text-primary font-fira">
+            {user.username.substring(0, 2).toUpperCase()}
+          </AvatarFallback>
+        </Avatar>
+      )}
     </motion.div>
   );
 };
