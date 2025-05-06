@@ -28,6 +28,7 @@ export const users = pgTable("users", {
       memory: 50,
       energy: 50,
     }),
+  avatarConfig: text("avatar_config"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
