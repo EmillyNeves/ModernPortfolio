@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Code, Calculator, Terminal, Lock, Lightbulb } from "lucide-react";
+import { Code, Calculator, Terminal, Lock, Lightbulb, CloudRainWind } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import SpeechBubble from "@/components/dashboard/SpeechBubble";
+import BalloonGallery from "@/components/avatar/BalloonGallery";
 
 const Developer: React.FC = () => {
   // State for the grade calculator
@@ -110,6 +111,10 @@ const Developer: React.FC = () => {
           <TabsTrigger value="tips" className="font-fira text-xs">
             <Lightbulb className="h-4 w-4 mr-1" />
             STUDY TIPS
+          </TabsTrigger>
+          <TabsTrigger value="balloons" className="font-fira text-xs">
+            <CloudRainWind className="h-4 w-4 mr-1" />
+            AVATARS
           </TabsTrigger>
         </TabsList>
         
@@ -354,6 +359,46 @@ const Developer: React.FC = () => {
                     )}
                   </div>
                 ))}
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+        
+        {/* Balloon Avatars Gallery */}
+        <TabsContent value="balloons">
+          <Card className="terminal-window bg-card/70">
+            <CardHeader>
+              <CardTitle className="text-primary font-orbitron text-lg title-caps">
+                BALLOON_AVATAR_SYSTEM
+              </CardTitle>
+              <CardDescription className="font-fira text-white/70 text-xs">
+                Customizable avatar balloon system for user representation
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-6">
+                <div className="terminal-window bg-card p-4 border border-accent/20 rounded-lg">
+                  <h3 className="text-accent font-orbitron text-sm mb-3 title-caps">AVAILABLE_STYLES</h3>
+                  <p className="text-white/70 font-fira text-xs mb-4">
+                    Explore available balloon avatar styles and customization options below. Each avatar can be customized with different shapes, patterns, decorations, and accessories.
+                  </p>
+                  
+                  <BalloonGallery className="mt-4" />
+                </div>
+                
+                <div className="terminal-window bg-card p-4 border border-accent/20 rounded-lg">
+                  <h3 className="text-accent font-orbitron text-sm mb-3 title-caps">USAGE_INSTRUCTIONS</h3>
+                  <div className="text-white/70 font-fira text-xs space-y-2">
+                    <p>1. Navigate to your profile settings</p>
+                    <p>2. Select "Customize Avatar" option</p>
+                    <p>3. Choose your preferred balloon shape, color, pattern and accessories</p>
+                    <p>4. Save changes to update your profile avatar</p>
+                  </div>
+                </div>
+                
+                <div className="p-3 rounded-md bg-primary/20 border border-primary/50 font-fira text-xs">
+                  <strong className="text-primary">Pro Tip:</strong> Your avatar appearance affects how you're perceived in the collaborative study environments. Choose a style that represents your academic personality!
+                </div>
               </div>
             </CardContent>
           </Card>
