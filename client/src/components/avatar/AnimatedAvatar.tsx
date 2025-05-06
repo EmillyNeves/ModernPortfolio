@@ -284,13 +284,18 @@ const AnimatedAvatar: React.FC<AnimatedAvatarProps> = ({
       'cyberpunk': 'neon'
     };
     
+    // Determine expression based on user title
+    // 'tired' for "veterano", 'happy' (default) for "calouro"
+    const expression = user.title?.toLowerCase().includes('veterano') ? 'tired' : 'happy';
+    
     return {
       color: avatarConfig.skinTone,
       detailColor: avatarConfig.hairColor,
       pattern: patternMap[avatarConfig.hairStyle as keyof typeof patternMap] || 'dots',
       shape: shapeMap[avatarConfig.bodyType as keyof typeof shapeMap] || 'round',
       decoration: decorationMap[avatarConfig.outfit as keyof typeof decorationMap] || 'none',
-      accessories: avatarConfig.accessories
+      accessories: avatarConfig.accessories,
+      expression
     };
   };
   

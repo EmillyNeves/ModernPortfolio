@@ -8,6 +8,7 @@ interface BalloonAvatarProps {
   decoration: string;
   accessories: string[];
   size?: 'sm' | 'md' | 'lg' | 'xl';
+  expression?: 'happy' | 'tired';
   className?: string;
 }
 
@@ -19,6 +20,7 @@ const BalloonAvatar: React.FC<BalloonAvatarProps> = ({
   decoration = 'none',
   accessories = [],
   size = 'md',
+  expression = 'happy',
   className = '',
 }) => {
   // Define size values based on the size prop
@@ -175,13 +177,46 @@ const BalloonAvatar: React.FC<BalloonAvatarProps> = ({
 
   // Face features
   const renderFace = () => {
-    return (
-      <>
-        <circle cx="40" cy="35" r="2" fill="black" />
-        <circle cx="60" cy="35" r="2" fill="black" />
-        <path d="M45 45 Q50 50 55 45" stroke="black" strokeWidth="1.5" fill="none" />
-      </>
-    );
+    if (expression === 'tired') {
+      return (
+        <>
+          {/* Olhos com olheiras para expressão cansada */}
+          <circle cx="40" cy="35" r="2" fill="black" />
+          <circle cx="60" cy="35" r="2" fill="black" />
+          
+          {/* Olheiras */}
+          <path d="M35 38 Q40 41 45 38" stroke="#553366" strokeWidth="1" fill="none" opacity="0.5" />
+          <path d="M55 38 Q60 41 65 38" stroke="#553366" strokeWidth="1" fill="none" opacity="0.5" />
+          
+          {/* Boca séria/cansada */}
+          <path d="M45 48 L55 48" stroke="black" strokeWidth="1.5" fill="none" />
+          
+          {/* Sobrancelhas inclinadas para expressão cansada */}
+          <path d="M35 30 L45 32" stroke="black" strokeWidth="1.5" fill="none" />
+          <path d="M55 32 L65 30" stroke="black" strokeWidth="1.5" fill="none" />
+        </>
+      );
+    } else {
+      // Expressão feliz/fofa padrão para calouro
+      return (
+        <>
+          {/* Olhos sorridentes */}
+          <circle cx="40" cy="35" r="2.5" fill="black" />
+          <circle cx="60" cy="35" r="2.5" fill="black" />
+          
+          {/* Reflexo nos olhos */}
+          <circle cx="41" cy="34" r="1" fill="white" />
+          <circle cx="61" cy="34" r="1" fill="white" />
+          
+          {/* Bochechas coradas */}
+          <circle cx="35" cy="40" r="3" fill="#FF9999" opacity="0.5" />
+          <circle cx="65" cy="40" r="3" fill="#FF9999" opacity="0.5" />
+          
+          {/* Sorriso fofo */}
+          <path d="M45 45 Q50 50 55 45" stroke="black" strokeWidth="1.5" fill="none" />
+        </>
+      );
+    }
   };
 
   return (
