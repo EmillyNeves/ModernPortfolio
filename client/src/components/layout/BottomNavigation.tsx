@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, useLocation } from "wouter";
-import { Home, Calendar, Edit3, BarChart2, Code } from "lucide-react";
+import { Home, Calendar, Edit3, BarChart2, LineChart, Code } from "lucide-react";
 
 const BottomNavigation: React.FC = () => {
   const [location] = useLocation();
@@ -29,6 +29,11 @@ const BottomNavigation: React.FC = () => {
       icon: <BarChart2 className="h-6 w-6" />,
       label: "PROGRESSO",
       path: "/progress",
+    },
+    {
+      icon: <LineChart className="h-6 w-6" />,
+      label: "ANALYTICS",
+      path: "/analytics",
     },
     {
       icon: <Code className="h-6 w-6" />,

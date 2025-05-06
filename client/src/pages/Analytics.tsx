@@ -130,13 +130,13 @@ const Analytics: React.FC = () => {
 
   // Calculate GPA based on assessment scores
   const calculateGPA = () => {
-    if (!assessmentsData?.courses) return 0;
+    const assessmentCoursesData = (assessmentsData as any)?.courses || [];
     
     let totalWeightedScore = 0;
     let totalWeight = 0;
     
-    assessmentsData.courses.forEach((course: any) => {
-      course.assessments.forEach((assessment: Assessment) => {
+    assessmentCoursesData.forEach((course: any) => {
+      (course.assessments || []).forEach((assessment: Assessment) => {
         totalWeightedScore += assessment.score * assessment.weight;
         totalWeight += assessment.weight;
       });
@@ -147,13 +147,13 @@ const Analytics: React.FC = () => {
 
   // Calculate attendance percentage
   const calculateAttendancePercentage = () => {
-    if (!attendanceData?.courses) return 0;
+    const attendanceCoursesData = (attendanceData as any)?.courses || [];
     
     let totalClasses = 0;
     let attendedClasses = 0;
     
-    attendanceData.courses.forEach((course: any) => {
-      course.attendance.forEach((record: any) => {
+    attendanceCoursesData.forEach((course: any) => {
+      (course.attendance || []).forEach((record: any) => {
         totalClasses++;
         if (record.status === 'present') {
           attendedClasses++;

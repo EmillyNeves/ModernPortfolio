@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { User } from "@shared/schema";
 import { AvatarConfig } from "./AvatarEditor";
-import BalloonAvatar from "./balloonAvatars";
+import BalloonAvatar, { BalloonAvatarProps } from "./balloonAvatars";
 
 interface AnimatedAvatarProps {
   user: User;
@@ -286,7 +286,8 @@ const AnimatedAvatar: React.FC<AnimatedAvatarProps> = ({
     
     // Determine expression based on user title
     // 'tired' for "veterano", 'happy' (default) for "calouro"
-    const expression = user.title?.toLowerCase().includes('veterano') ? 'tired' : 'happy';
+    // Tipagem explícita para garantir que é um dos valores permitidos
+    const expression: 'tired' | 'happy' = user.title?.toLowerCase().includes('veterano') ? 'tired' : 'happy';
     
     return {
       color: avatarConfig.skinTone,
@@ -307,7 +308,7 @@ const AnimatedAvatar: React.FC<AnimatedAvatarProps> = ({
     >
       {avatarConfig && mapConfigToBalloonProps() ? (
         <BalloonAvatar 
-          {...mapConfigToBalloonProps()!}
+          {...mapConfigToBalloonProps() as BalloonAvatarProps}
           size={size}
           className={className}
         />

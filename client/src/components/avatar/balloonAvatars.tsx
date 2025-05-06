@@ -1,6 +1,6 @@
 import React from 'react';
 
-interface BalloonAvatarProps {
+export interface BalloonAvatarProps {
   color: string;
   detailColor: string;
   pattern: string;
