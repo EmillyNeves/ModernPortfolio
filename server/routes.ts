@@ -20,6 +20,29 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Update user avatar
+  app.post(`${apiPrefix}/user/avatar`, async (req, res) => {
+    try {
+      const { avatarConfig } = req.body;
+      
+      if (!avatarConfig) {
+        return res.status(400).json({ message: "Avatar configuration is required" });
+      }
+      
+      const userId = 1; // In a real app, get user from session
+      const updatedUser = await storage.updateUserAvatar(userId, avatarConfig);
+      
+      if (!updatedUser) {
+        return res.status(404).json({ message: "User not found" });
+      }
+      
+      return res.json(updatedUser);
+    } catch (error) {
+      console.error("Error updating avatar:", error);
+      return res.status(500).json({ message: "Internal server error" });
+    }
+  });
+
   // Tasks routes
   app.get(`${apiPrefix}/tasks`, async (req, res) => {
     try {

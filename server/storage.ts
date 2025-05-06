@@ -11,6 +11,15 @@ class Storage {
     });
     return users.length > 0 ? users[0] : null;
   }
+  
+  async updateUserAvatar(id: number, avatarConfig: string): Promise<schema.User | null> {
+    const result = await db.update(schema.users)
+      .set({ avatarConfig })
+      .where(eq(schema.users.id, id))
+      .returning();
+    
+    return result.length > 0 ? result[0] : null;
+  }
 
   // Course methods
   async getCourses(): Promise<schema.Course[]> {

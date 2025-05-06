@@ -50,24 +50,18 @@ const CharacterProfile: React.FC<CharacterProfileProps> = ({ user }) => {
       const configString = JSON.stringify(avatarConfig);
       
       // Update user in database
-      const response = await apiRequest('/api/user/avatar', {
-        method: 'POST',
-        body: JSON.stringify({ avatarConfig: configString }),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+      const response = await apiRequest(
+        'POST', 
+        '/api/user/avatar', 
+        { avatarConfig: configString }
+      );
       
-      if (response.ok) {
-        const updatedUser = await response.json();
-        setCurrentUser(updatedUser);
-        toast({
-          title: "Avatar atualizado",
-          description: "Seu avatar foi personalizado com sucesso!",
-        });
-      } else {
-        throw new Error('Falha ao atualizar avatar');
-      }
+      const updatedUser = await response.json();
+      setCurrentUser(updatedUser);
+      toast({
+        title: "Avatar atualizado",
+        description: "Seu avatar foi personalizado com sucesso!",
+      });
     } catch (error) {
       console.error('Error saving avatar:', error);
       toast({
