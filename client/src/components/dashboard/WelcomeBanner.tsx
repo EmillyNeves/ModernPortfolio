@@ -1,20 +1,47 @@
-import React, { useEffect, useRef } from "react";
-import { typeWriter } from "@/lib/utils";
+import React, { useState, useEffect } from "react";
 
 const WelcomeBanner: React.FC = () => {
-  const textRef = useRef<HTMLParagraphElement>(null);
+  const [text, setText] = useState("");
+  const [isTypingComplete, setIsTypingComplete] = useState(false);
+  
+  const fullText = `Transforme sua jornada acadêmica em uma experiência dinâmica e interativa.
+
+Uma plataforma gamificada que monitora seus dados acadêmicos, visualiza conquistas e requisitos.
+
+Complete desafios, acumule XP, suba de nível e desbloqueie novas habilidades.`;
 
   useEffect(() => {
-    if (textRef.current) {
-      const originalText = textRef.current.innerHTML;
-      textRef.current.innerHTML = "";
-      setTimeout(() => {
-        if (textRef.current) {
-          typeWriter(textRef.current, originalText, 0, 20);
-        }
-      }, 500);
-    }
+    let index = 0;
+    let timeoutId: NodeJS.Timeout;
+    
+    const type = () => {
+      setText(fullText.substring(0, index));
+      index++;
+      
+      if (index <= fullText.length) {
+        timeoutId = setTimeout(type, 20);
+      } else {
+        setIsTypingComplete(true);
+      }
+    };
+    
+    // Start typing after a short delay
+    const startTimeout = setTimeout(type, 500);
+    
+    // Cleanup
+    return () => {
+      clearTimeout(startTimeout);
+      clearTimeout(timeoutId);
+    };
   }, []);
+
+  // Transformando as quebras de linha em <br /> para React
+  const formattedText = text.split('\n').map((line, i) => (
+    <React.Fragment key={i}>
+      {line}
+      {i < text.split('\n').length - 1 && <><br /><br /></>}
+    </React.Fragment>
+  ));
 
   return (
     <div className="relative">
@@ -72,18 +99,9 @@ const WelcomeBanner: React.FC = () => {
             <br />
             NAVIGATOR
           </h1>
-          <p
-            ref={textRef}
-            className="font-fira text-white/80 max-w-md mt-6 text-sm hacking-text formatted-text"
-          >
-            Transforme sua jornada acadêmica em uma experiência dinâmica e interativa.
-            <br />
-            <br />
-            Uma plataforma gamificada que monitora seus dados acadêmicos, visualiza conquistas e
-            requisitos.
-            <br />
-            <br />
-            Complete desafios, acumule XP, suba de nível e desbloqueie novas habilidades.
+          <p className="font-fira text-white/80 max-w-md mt-6 text-sm hacking-text formatted-text">
+            {formattedText}
+            {!isTypingComplete && <span className="animate-pulse">|</span>}
           </p>
         </div>
       </div>
