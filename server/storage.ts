@@ -70,9 +70,9 @@ class Storage {
 
   // Notification methods
   async getNotifications(): Promise<schema.Notification[]> {
-    return await db.query.notifications.findMany({
-      orderBy: [{ createdAt: "desc" }],
-    });
+    // Using direct SQL query as a workaround for relational query issues
+    const result = await db.select().from(schema.notifications);
+    return result;
   }
 
   // Achievement methods

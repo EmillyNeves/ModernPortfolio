@@ -52,8 +52,8 @@ const StatusDashboard: React.FC<StatusDashboardProps> = ({ courses, weeklySchedu
               {/* Schedule Grid */}
               {Object.entries(scheduleByTimeSlot).map(([timeSlot, slots]) => (
                 // Map each time slot row
-                React.Fragment.key(timeSlot,
-                  slots.map((item, index) => (
+                <React.Fragment key={timeSlot}>
+                  {slots.map((item, index) => (
                     <div
                       key={`${timeSlot}-${index}`}
                       className={`${
@@ -64,8 +64,8 @@ const StatusDashboard: React.FC<StatusDashboardProps> = ({ courses, weeklySchedu
                     >
                       {item?.courseCode || "--"}
                     </div>
-                  ))
-                )
+                  ))}
+                </React.Fragment>
               ))}
             </div>
           </div>
