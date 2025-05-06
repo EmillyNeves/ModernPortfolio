@@ -1,0 +1,137 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Fira+Code:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 222 30% 7%;
+    --foreground: 210 40% 98%;
+
+    --card: 222 30% 7%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222 30% 7%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 155 100% 50%;
+    --primary-foreground: 222 47% 11%;
+
+    --secondary: 270 100% 50%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217 19% 27%;
+    --muted-foreground: 215 20% 65%;
+
+    --accent: 191 100% 50%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 346 84% 61%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 215 27% 20%;
+    --input: 215 27% 20%;
+    --ring: 155 100% 50%;
+
+    --chart-1: 155 100% 50%;
+    --chart-2: 270 100% 50%;
+    --chart-3: 191 100% 50%;
+    --chart-4: 346 84% 61%;
+    --chart-5: 59 100% 50%;
+
+    --sidebar-background: 222 30% 7%;
+    --sidebar-foreground: 210 40% 98%;
+    --sidebar-primary: 155 100% 50%;
+    --sidebar-primary-foreground: 222 47% 11%;
+    --sidebar-accent: 191 100% 50%;
+    --sidebar-accent-foreground: 210 40% 98%;
+    --sidebar-border: 215 27% 20%;
+    --sidebar-ring: 155 100% 50%;
+
+    --radius: 0.5rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased bg-background text-foreground;
+    background-image: 
+      radial-gradient(circle at 10% 20%, rgba(0, 255, 140, 0.05) 0%, transparent 20%),
+      radial-gradient(circle at 90% 80%, rgba(157, 0, 255, 0.05) 0%, transparent 20%),
+      linear-gradient(to bottom, rgba(13, 17, 23, 0.99), rgba(13, 17, 23, 0.99));
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-orbitron;
+  }
+
+  code, pre {
+    @apply font-fira;
+  }
+}
+
+@layer components {
+  .terminal-window {
+    @apply border border-primary/30 shadow-[0_0_10px_rgba(0,255,140,0.3)] backdrop-blur-sm bg-card/70 rounded-lg;
+  }
+
+  .speech-bubble {
+    @apply relative bg-primary/10 border border-primary rounded-lg;
+  }
+
+  .speech-bubble:after {
+    content: '';
+    @apply absolute left-[15px] top-full border-[10px] border-transparent border-t-primary;
+  }
+
+  .nav-item:hover {
+    @apply bg-primary/20 shadow-[0_0_5px_rgba(0,255,140,0.5)];
+  }
+
+  .progress-bar {
+    @apply relative h-2 bg-white/10 rounded-full overflow-hidden;
+  }
+
+  .progress-bar-fill {
+    @apply absolute top-0 left-0 h-full rounded-full transition-[width] duration-500 ease-in-out;
+  }
+
+  .hacking-text::after {
+    content: '|';
+    @apply animate-blink;
+  }
+
+  .glitch-effect {
+    @apply relative animate-glitch;
+  }
+}
+
+@keyframes blink {
+  from, to { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+@keyframes glitch {
+  0% { text-shadow: 0.05em 0 0 rgba(255, 0, 0, 0.75), -0.05em -0.025em 0 rgba(0, 255, 0, 0.75), 0.025em 0.05em 0 rgba(0, 0, 255, 0.75); }
+  14% { text-shadow: 0.05em 0 0 rgba(255, 0, 0, 0.75), -0.05em -0.025em 0 rgba(0, 255, 0, 0.75), 0.025em 0.05em 0 rgba(0, 0, 255, 0.75); }
+  15% { text-shadow: -0.05em -0.025em 0 rgba(255, 0, 0, 0.75), 0.025em 0.025em 0 rgba(0, 255, 0, 0.75), -0.05em -0.05em 0 rgba(0, 0, 255, 0.75); }
+  49% { text-shadow: -0.05em -0.025em 0 rgba(255, 0, 0, 0.75), 0.025em 0.025em 0 rgba(0, 255, 0, 0.75), -0.05em -0.05em 0 rgba(0, 0, 255, 0.75); }
+  50% { text-shadow: 0.025em 0.05em 0 rgba(255, 0, 0, 0.75), 0.05em 0 0 rgba(0, 255, 0, 0.75), 0 -0.05em 0 rgba(0, 0, 255, 0.75); }
+  99% { text-shadow: 0.025em 0.05em 0 rgba(255, 0, 0, 0.75), 0.05em 0 0 rgba(0, 255, 0, 0.75), 0 -0.05em 0 rgba(0, 0, 255, 0.75); }
+  100% { text-shadow: -0.025em 0 0 rgba(255, 0, 0, 0.75), -0.025em -0.025em 0 rgba(0, 255, 0, 0.75), -0.025em -0.05em 0 rgba(0, 0, 255, 0.75); }
+}
+
+@layer utilities {
+  .animate-blink {
+    animation: blink 1s step-end infinite;
+  }
+
+  .animate-glitch {
+    animation: glitch 2s infinite;
+  }
+}
