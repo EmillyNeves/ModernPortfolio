@@ -6,6 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Slider } from "@/components/ui/slider";
 import { motion } from "framer-motion";
 import { User } from "@shared/schema";
+import BalloonAvatar from "./balloonAvatars";
 
 interface AvatarEditorProps {
   user: User;

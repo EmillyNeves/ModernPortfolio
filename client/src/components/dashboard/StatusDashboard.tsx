@@ -50,23 +50,21 @@ const StatusDashboard: React.FC<StatusDashboardProps> = ({ courses, weeklySchedu
               ))}
 
               {/* Schedule Grid */}
-              {Object.entries(scheduleByTimeSlot).map(([timeSlot, slots]) => (
-                // Map each time slot row
-                <React.Fragment key={timeSlot}>
-                  {slots.map((item, index) => (
-                    <div
-                      key={`${timeSlot}-${index}`}
-                      className={`${
-                        item?.courseCode
-                          ? "bg-accent/20 border border-accent/50"
-                          : "bg-white/5 border border-white/10"
-                      } rounded text-center py-2 text-xs font-fira`}
-                    >
-                      {item?.courseCode || "--"}
-                    </div>
-                  ))}
-                </React.Fragment>
-              ))}
+              {Object.entries(scheduleByTimeSlot).map(([timeSlot, slots]) => 
+                // Render each slot directly without React.Fragment
+                slots.map((item, index) => (
+                  <div
+                    key={`${timeSlot}-${index}`}
+                    className={`${
+                      item?.courseCode
+                        ? "bg-accent/20 border border-accent/50"
+                        : "bg-white/5 border border-white/10"
+                    } rounded text-center py-2 text-xs font-fira`}
+                  >
+                    {item?.courseCode || "--"}
+                  </div>
+                ))
+              )}
             </div>
           </div>
         </div>
