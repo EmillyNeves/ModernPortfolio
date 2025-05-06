@@ -28,6 +28,23 @@ export const users = pgTable("users", {
       memory: 50,
       energy: 50,
     }),
+  avatar: json("avatar")
+    .$type<{
+      skinColor: string;
+      eyesStyle: number;
+      mouthStyle: number;
+      accessory: string;
+      hairStyle: string;
+      hairColor: string;
+    }>()
+    .default({
+      skinColor: "#00D9FF",
+      eyesStyle: 1,
+      mouthStyle: 1,
+      accessory: "none",
+      hairStyle: "short",
+      hairColor: "#000000",
+    }),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
