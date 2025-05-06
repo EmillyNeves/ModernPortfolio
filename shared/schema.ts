@@ -145,6 +145,8 @@ export const coursesRelations = relations(courses, ({ many }) => ({
   attendance: many(attendance),
 }));
 
+// We'll add more detailed relations when we fix the database schema
+
 // Validation schemas
 export const insertUserSchema = createInsertSchema(users);
 export const insertCourseSchema = createInsertSchema(courses);
