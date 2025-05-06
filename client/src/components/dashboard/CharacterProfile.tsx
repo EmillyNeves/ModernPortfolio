@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { getStatColor } from "@/lib/utils";
 import { User } from "@shared/schema";
 import { apiRequest } from "@/lib/queryClient";
@@ -115,7 +115,7 @@ const CharacterProfile: React.FC<CharacterProfileProps> = ({ user }) => {
 
       {/* Stats Section */}
       <div className="mt-4">
-        <h3 className="text-secondary font-orbitron text-sm border-b border-secondary/30 pb-1 mb-3">
+        <h3 className="text-secondary font-orbitron text-sm border-b border-secondary/30 pb-1 mb-3 title-caps">
           CHARACTER_STATS
         </h3>
 
@@ -123,7 +123,7 @@ const CharacterProfile: React.FC<CharacterProfileProps> = ({ user }) => {
           {statItems.map((stat) => (
             <div key={stat.label}>
               <div className="flex justify-between">
-                <span className="text-white/80">{stat.label}</span>
+                <span className="text-white/80 title-caps">{stat.label}</span>
                 <span className={stat.value < 60 ? "text-yellow-400" : "text-accent"}>
                   {stat.value}/{stat.max}
                 </span>
@@ -141,7 +141,7 @@ const CharacterProfile: React.FC<CharacterProfileProps> = ({ user }) => {
       {/* Level Progress */}
       <div className="mt-6">
         <div className="flex justify-between items-center">
-          <span className="text-white/90 font-orbitron text-xs">LEVEL</span>
+          <span className="text-white/90 font-orbitron text-xs title-caps">LEVEL</span>
           <span className="text-primary font-orbitron text-lg">{currentUser.level}</span>
         </div>
         <Progress value={xpPercentage} className="mt-2" indicatorColor="bg-primary" />
@@ -155,7 +155,11 @@ const CharacterProfile: React.FC<CharacterProfileProps> = ({ user }) => {
 
       {/* Avatar Editor Dialog */}
       <Dialog open={isEditorOpen} onOpenChange={setIsEditorOpen}>
-        <DialogContent className="p-0 max-w-4xl w-[95vw]">
+        <DialogContent className="p-0 max-w-4xl w-[95vw]" aria-describedby="avatar-editor-description">
+          <DialogTitle className="sr-only">Editor de Avatar</DialogTitle>
+          <div id="avatar-editor-description" className="sr-only">
+            Editor para personalização do avatar do usuário
+          </div>
           <AvatarEditor 
             user={currentUser} 
             onSave={handleAvatarSave}

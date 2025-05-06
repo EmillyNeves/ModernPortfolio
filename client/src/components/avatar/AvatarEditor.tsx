@@ -330,12 +330,32 @@ const AvatarEditor: React.FC<AvatarEditorProps> = ({ user, onSave, onCancel }) =
               animate={avatarConfig.animation}
               variants={avatarAnimations}
             >
-              <Avatar className="w-32 h-32 border-4 border-primary">
-                <AvatarImage src={generateAvatarSVG()} alt={user.username} />
-                <AvatarFallback className="text-primary text-2xl font-fira">
-                  {user.username.substring(0, 2).toUpperCase()}
-                </AvatarFallback>
-              </Avatar>
+              {/* Use the new BalloonAvatar component */}
+              <div className="w-32 h-32">
+                <BalloonAvatar 
+                  color={avatarConfig.skinTone}
+                  detailColor={avatarConfig.hairColor}
+                  pattern={
+                    avatarConfig.hairStyle === 'short' ? 'dots' :
+                    avatarConfig.hairStyle === 'long' ? 'stripes' :
+                    avatarConfig.hairStyle === 'curly' ? 'spiral' :
+                    avatarConfig.hairStyle === 'afro' ? 'stars' : 'none'
+                  }
+                  shape={
+                    avatarConfig.bodyType === 'athletic' ? 'round' :
+                    avatarConfig.bodyType === 'slim' ? 'oval' : 'square'
+                  }
+                  decoration={
+                    avatarConfig.outfit === 'formal' ? 'ribbons' :
+                    avatarConfig.outfit === 'casual' ? 'bows' :
+                    avatarConfig.outfit === 'sporty' ? 'confetti' :
+                    avatarConfig.outfit === 'geek' ? 'initials' : 'neon'
+                  }
+                  accessories={selectedAccessories}
+                  size="xl"
+                  className="border-4 border-primary rounded-full"
+                />
+              </div>
             </motion.div>
           </div>
           <p className="text-sm text-muted-foreground text-center mb-4">
