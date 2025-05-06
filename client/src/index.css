@@ -4,6 +4,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+  .drop-shadow-glow {
+    filter: drop-shadow(0 0 8px rgba(0, 255, 140, 0.6));
+  }
+}
+
 @layer base {
   :root {
     --background: 222 30% 7%;

@@ -20,6 +20,7 @@ import { User, Course, Assessment } from "@shared/schema";
 import { getQueryFn } from "@/lib/queryClient";
 import { calculateXpPercentage } from "@/lib/utils";
 import { Progress } from "@/components/ui/progress";
+import LoadingBalloon from "@/components/animations/LoadingBalloon";
 import { 
   LineChart, 
   Line, 
@@ -77,9 +78,7 @@ const Analytics: React.FC = () => {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-[80vh]">
-        <div className="animate-pulse text-primary font-fira">
-          CARREGANDO DADOS...
-        </div>
+        <LoadingBalloon message="CARREGANDO ANALYTICS" />
       </div>
     );
   }

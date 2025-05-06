@@ -5,6 +5,7 @@ import TasksList from "@/components/dashboard/TasksList";
 import WelcomeBanner from "@/components/dashboard/WelcomeBanner";
 import StatusDashboard from "@/components/dashboard/StatusDashboard";
 import SpeechBubble from "@/components/dashboard/SpeechBubble";
+import LoadingBalloon from "@/components/animations/LoadingBalloon";
 import { apiRequest } from "@/lib/queryClient";
 
 const Home: React.FC = () => {
@@ -59,7 +60,7 @@ const Home: React.FC = () => {
   if (isLoading) {
     return (
       <div className="flex justify-center items-center h-[80vh]">
-        <div className="text-primary font-orbitron text-xl animate-pulse">LOADING_DATA...</div>
+        <LoadingBalloon message="CARREGANDO_DADOS" />
       </div>
     );
   }
