@@ -26,19 +26,11 @@ const ProgressPage: React.FC = () => {
   // Fetch progress data
   const { data: progressData, isLoading: progressLoading } = useQuery({
     queryKey: ["/api/progress"],
-    queryFn: async () => {
-      const res = await apiRequest("GET", "/api/progress", undefined);
-      return res.json();
-    },
   });
 
   // Fetch courses data for radar chart
   const { data: coursesData, isLoading: coursesLoading } = useQuery({
     queryKey: ["/api/courses"],
-    queryFn: async () => {
-      const res = await apiRequest("GET", "/api/courses", undefined);
-      return res.json();
-    },
   });
 
   const isLoading = progressLoading || coursesLoading;

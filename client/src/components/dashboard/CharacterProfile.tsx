@@ -24,13 +24,14 @@ const CharacterProfile: React.FC<CharacterProfileProps> = ({ user }) => {
 
   const saveAvatarMutation = useMutation({
     mutationFn: async (avatarConfig: AvatarConfig) => {
-      return await apiRequest("/api/user/avatar", {
+      const response = await apiRequest("/api/user/avatar", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({ avatar: avatarConfig }),
-      } as RequestInit);
+      });
+      return await response.json();
     },
     onSuccess: () => {
       toast({
