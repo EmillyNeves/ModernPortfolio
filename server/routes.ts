@@ -19,22 +19,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
       return res.status(500).json({ message: "Internal server error" });
     }
   });
-  
-  // Avatar update route
-  app.post(`${apiPrefix}/user/avatar`, async (req, res) => {
-    try {
-      const { avatar } = req.body;
-      if (!avatar) {
-        return res.status(400).json({ message: "Avatar configuration is required" });
-      }
-      
-      const updatedUser = await storage.updateUserAvatar(1, avatar); // Hardcoded user id = 1 (MERAKI)
-      return res.json(updatedUser);
-    } catch (error) {
-      console.error("Error updating avatar:", error);
-      return res.status(500).json({ message: "Internal server error" });
-    }
-  });
 
   // Tasks routes
   app.get(`${apiPrefix}/tasks`, async (req, res) => {

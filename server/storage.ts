@@ -11,33 +11,6 @@ class Storage {
     });
     return users.length > 0 ? users[0] : null;
   }
-  
-  async updateUserAvatar(
-    id: number,
-    avatar: {
-      skinColor: string;
-      eyesStyle: number;
-      mouthStyle: number;
-      accessory: string;
-      hairStyle: string;
-      hairColor: string;
-    }
-  ): Promise<schema.User | null> {
-    // Find the user first
-    const user = await this.getUser(id);
-    if (!user) {
-      return null;
-    }
-    
-    // Update the user with the new avatar
-    const [updatedUser] = await db
-      .update(schema.users)
-      .set({ avatar })
-      .where(eq(schema.users.id, id))
-      .returning();
-      
-    return updatedUser;
-  }
 
   // Course methods
   async getCourses(): Promise<schema.Course[]> {
@@ -83,12 +56,15 @@ class Storage {
 
   // Attendance methods
   async getAttendance(): Promise<schema.Attendance[]> {
-    return await db.query.attendance.findMany();
+    return await db.query.attendance.findMany({
+      orderBy: [{ date: "desc" }],
+    });
   }
 
   async getAttendanceByCourse(courseId: number): Promise<schema.Attendance[]> {
     return await db.query.attendance.findMany({
       where: eq(schema.attendance.courseId, courseId),
+      orderBy: [{ date: "desc" }],
     });
   }
 

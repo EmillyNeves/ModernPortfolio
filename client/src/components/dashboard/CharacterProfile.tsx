@@ -1,58 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import { Progress } from "@/components/ui/progress";
 import { getStatColor } from "@/lib/utils";
 import { User } from "@shared/schema";
-import { useQuery, useMutation } from "@tanstack/react-query";
-import { apiRequest } from "@/lib/queryClient";
-import AvatarCustomizer, { AvatarConfig } from "./AvatarCustomizer";
-import { useToast } from "@/hooks/use-toast";
 
 interface CharacterProfileProps {
   user: User;
 }
 
 const CharacterProfile: React.FC<CharacterProfileProps> = ({ user }) => {
-  const { toast } = useToast();
-  const [avatar, setAvatar] = useState(user.avatar || {
-    skinColor: "#00D9FF",
-    eyesStyle: 1,
-    mouthStyle: 1,
-    accessory: "none",
-    hairStyle: "short",
-    hairColor: "#00FF8C",
-  });
-
-  const saveAvatarMutation = useMutation({
-    mutationFn: async (avatarConfig: AvatarConfig) => {
-      const response = await apiRequest("/api/user/avatar", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ avatar: avatarConfig }),
-      });
-      return await response.json();
-    },
-    onSuccess: () => {
-      toast({
-        title: "Avatar atualizado",
-        description: "Seu avatar foi personalizado com sucesso!",
-      });
-    },
-    onError: () => {
-      toast({
-        title: "Erro",
-        description: "Não foi possível atualizar seu avatar. Tente novamente.",
-        variant: "destructive",
-      });
-    },
-  });
-
-  const handleSaveAvatar = (avatarConfig: AvatarConfig) => {
-    setAvatar(avatarConfig);
-    saveAvatarMutation.mutate(avatarConfig);
-  };
-
   const statItems = [
     {
       label: "INTELLIGENCE",
@@ -80,9 +35,9 @@ const CharacterProfile: React.FC<CharacterProfileProps> = ({ user }) => {
   const xpPercentage = (user.xp.current / user.xp.max) * 100;
 
   return (
-    <div className="terminal-window p-4 relative">
+    <div className="terminal-window p-4">
       <div className="flex items-center mb-4">
-        <div className="rounded-md w-12 h-12 mr-3 border border-accent overflow-hidden relative">
+        <div className="rounded-md w-12 h-12 mr-3 border border-accent overflow-hidden">
           <svg
             viewBox="0 0 36 36"
             fill="none"
@@ -94,49 +49,36 @@ const CharacterProfile: React.FC<CharacterProfileProps> = ({ user }) => {
               <rect width="36" height="36" rx="72" fill="#FFFFFF" />
             </mask>
             <g mask="url(#mask__beam)">
-              <rect width="36" height="36" fill={avatar.skinColor} />
+              <rect width="36" height="36" fill="#00D9FF" />
               <rect
                 x="0"
                 y="0"
                 width="36"
                 height="36"
                 transform="translate(9 -5) rotate(219 18 18) scale(1.1)"
-                fill={avatar.hairColor}
+                fill="#00FF8C"
                 rx="6"
               />
               <g transform="translate(4.5 -4) rotate(9 18 18)">
-                <path 
-                  d={avatar.mouthStyle === 1 ? "M15 19c2 1 4 1 6 0" : "M13 19c2 -1 8 -1 10 0"}
-                  stroke="#000000" 
-                  fill="none" 
-                  strokeLinecap="round" 
-                />
+                <path d="M15 19c2 1 4 1 6 0" stroke="#000000" fill="none" strokeLinecap="round" />
                 <rect
-                  x={avatar.eyesStyle === 1 ? "10" : "12"}
+                  x="10"
                   y="14"
-                  width={avatar.eyesStyle === 1 ? "1.5" : "2"}
+                  width="1.5"
                   height="2"
                   rx="1"
                   stroke="none"
                   fill="#000000"
                 />
                 <rect
-                  x={avatar.eyesStyle === 1 ? "24" : "22"}
+                  x="24"
                   y="14"
-                  width={avatar.eyesStyle === 1 ? "1.5" : "2"}
+                  width="1.5"
                   height="2"
                   rx="1"
                   stroke="none"
                   fill="#000000"
                 />
-                {avatar.accessory === "glasses" && (
-                  <path
-                    d="M12 14 L24 14"
-                    stroke="#000000"
-                    strokeWidth="0.6"
-                    fill="none"
-                  />
-                )}
               </g>
             </g>
           </svg>
@@ -152,9 +94,6 @@ const CharacterProfile: React.FC<CharacterProfileProps> = ({ user }) => {
           </div>
         </div>
       </div>
-
-      {/* Avatar Customizer */}
-      <AvatarCustomizer user={user} onSave={handleSaveAvatar} />
 
       {/* Stats Section */}
       <div className="mt-4">

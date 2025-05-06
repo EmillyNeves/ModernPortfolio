@@ -26,11 +26,19 @@ const ProgressPage: React.FC = () => {
   // Fetch progress data
   const { data: progressData, isLoading: progressLoading } = useQuery({
     queryKey: ["/api/progress"],
+    queryFn: async () => {
+      const res = await apiRequest("GET", "/api/progress", undefined);
+      return res.json();
+    },
   });
 
   // Fetch courses data for radar chart
   const { data: coursesData, isLoading: coursesLoading } = useQuery({
     queryKey: ["/api/courses"],
+    queryFn: async () => {
+      const res = await apiRequest("GET", "/api/courses", undefined);
+      return res.json();
+    },
   });
 
   const isLoading = progressLoading || coursesLoading;
@@ -44,11 +52,11 @@ const ProgressPage: React.FC = () => {
   }
 
   // Transform course data for radar chart
-  const radarData = (coursesData && coursesData.courses) ? coursesData.courses.map((course: any) => ({
+  const radarData = coursesData?.courses.map((course: any) => ({
     subject: course.code,
-    A: Math.min(100, (course.stats?.performance || 0) * 100),
+    A: Math.min(100, (course.stats.performance || 0) * 100),
     fullMark: 100,
-  })) : [];
+  })) || [];
 
   return (
     <div className="space-y-6">
@@ -58,26 +66,19 @@ const ProgressPage: React.FC = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-        {progressData && progressData.overview ? 
-          progressData.overview.map((stat: any) => (
-            <Card key={stat.label} className="terminal-window bg-card/70">
-              <CardHeader className="pb-2">
-                <CardTitle className="text-primary font-orbitron text-md">
-                  {stat.label}
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-orbitron font-bold mb-1">{stat.value}</div>
-                <div className="text-xs text-white/60 font-fira">{stat.description}</div>
-              </CardContent>
-            </Card>
-          )) : 
-          <Card className="terminal-window bg-card/70">
+        {progressData?.overview.map((stat: any) => (
+          <Card key={stat.label} className="terminal-window bg-card/70">
+            <CardHeader className="pb-2">
+              <CardTitle className="text-primary font-orbitron text-md">
+                {stat.label}
+              </CardTitle>
+            </CardHeader>
             <CardContent>
-              <div className="text-accent font-orbitron">No overview data available</div>
+              <div className="text-2xl font-orbitron font-bold mb-1">{stat.value}</div>
+              <div className="text-xs text-white/60 font-fira">{stat.description}</div>
             </CardContent>
           </Card>
-        }
+        ))}
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -96,7 +97,7 @@ const ProgressPage: React.FC = () => {
             <div className="h-64 w-full">
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart
-                  data={(progressData && progressData.xpProgress) ? progressData.xpProgress : []}
+                  data={progressData?.xpProgress}
                   margin={{ top: 5, right: 20, left: 0, bottom: 5 }}
                 >
                   <CartesianGrid strokeDasharray="3 3" stroke="#ffffff20" />
@@ -188,7 +189,7 @@ const ProgressPage: React.FC = () => {
             <div className="h-64 w-full">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart
-                  data={(progressData && progressData.taskCompletion) ? progressData.taskCompletion : []}
+                  data={progressData?.taskCompletion}
                   margin={{ top: 5, right: 20, left: 0, bottom: 5 }}
                 >
                   <CartesianGrid strokeDasharray="3 3" stroke="#ffffff20" />
@@ -240,7 +241,7 @@ const ProgressPage: React.FC = () => {
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              {(progressData && progressData.achievements) ? progressData.achievements.map((achievement: any) => (
+              {progressData?.achievements.map((achievement: any) => (
                 <div key={achievement.id} className="terminal-window bg-card p-3 border border-accent/20 rounded-lg">
                   <div className="flex items-center">
                     <div className="mr-3 text-lg">
@@ -264,9 +265,7 @@ const ProgressPage: React.FC = () => {
                     </div>
                   )}
                 </div>
-              )) : (
-                <div className="text-white/70 font-fira text-sm">No achievements earned yet</div>
-              )}
+              ))}
             </div>
           </CardContent>
         </Card>
