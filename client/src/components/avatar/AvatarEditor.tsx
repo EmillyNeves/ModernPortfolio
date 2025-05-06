@@ -44,22 +44,22 @@ const animationOptions = [
   { id: "celebrating", name: "Comemorando", description: "Avatar comemorando" }
 ];
 
-// Hair styles
+// Pattern styles (anteriormente estilos de cabelo)
 const hairStyles = [
-  { id: "short", name: "Curto" },
-  { id: "long", name: "Longo" },
-  { id: "curly", name: "Cacheado" },
-  { id: "afro", name: "Afro" },
-  { id: "bald", name: "Careca" }
+  { id: "short", name: "Bolinhas" },
+  { id: "long", name: "Listras" },
+  { id: "curly", name: "Espiral" },
+  { id: "afro", name: "Estrelas" },
+  { id: "bald", name: "Liso" }
 ];
 
-// Outfits
+// Outfits (decorações externas)
 const outfitOptions = [
-  { id: "casual", name: "Casual" },
-  { id: "formal", name: "Formal" },
-  { id: "sporty", name: "Esportivo" },
-  { id: "geek", name: "Geek" },
-  { id: "cyberpunk", name: "Cyberpunk" }
+  { id: "casual", name: "Laços" },
+  { id: "formal", name: "Fitas" },
+  { id: "sporty", name: "Confete" },
+  { id: "geek", name: "Iniciais" },
+  { id: "cyberpunk", name: "Neon" }
 ];
 
 // Accessories
@@ -152,91 +152,115 @@ const AvatarEditor: React.FC<AvatarEditorProps> = ({ user, onSave, onCancel }) =
     }
   };
 
-  // Generate the avatar SVG based on configuration
+  // Generate avatar SVG based on config
   const generateAvatarSVG = () => {
     // Encode colors for SVG URL
     const encodeColor = (color: string) => color.replace(/#/g, '%23');
     const skinTone = encodeColor(avatarConfig.skinTone);
     const hairColor = encodeColor(avatarConfig.hairColor);
     
-    // Build SVG parts based on config
-    let svg = '';
-    
     // Body shape based on body type
     const bodyShape = avatarConfig.bodyType === 'athletic' ? 
-      `<rect x="35" y="55" width="30" height="40" rx="5" fill="${skinTone}" />` :
-      avatarConfig.bodyType === 'slim' ?
-      `<rect x="40" y="55" width="20" height="45" rx="5" fill="${skinTone}" />` :
-      `<rect x="30" y="55" width="40" height="40" rx="10" fill="${skinTone}" />`;
+      "balloon-round" : 
+      avatarConfig.bodyType === 'slim' ? 
+      "balloon-long" : 
+      "balloon-square";
     
-    // Head
-    const head = `<circle cx="50" cy="35" r="20" fill="${skinTone}" />`;
+    // Determine balloon shape and string
+    let balloonPath = '';
+    let stringPath = '';
     
-    // Hair style
-    let hair = '';
-    switch(avatarConfig.hairStyle) {
-      case 'short':
-        hair = `<path d="M30 25 Q50 10 70 25 L70 35 Q50 45 30 35 Z" fill="${hairColor}" />`;
+    switch (bodyShape) {
+      case 'balloon-round':
+        balloonPath = `<circle cx="50" cy="40" r="30" fill="${skinTone}" />`;
+        stringPath = `<path d="M50 70 Q45 85 55 95" stroke="${hairColor}" stroke-width="1.5" fill="none" />`;
         break;
-      case 'long':
-        hair = `<path d="M30 25 Q50 10 70 25 L70 45 Q50 55 30 45 Z" fill="${hairColor}" />`;
+      case 'balloon-long':
+        balloonPath = `<ellipse cx="50" cy="40" rx="20" ry="35" fill="${skinTone}" />`;
+        stringPath = `<path d="M50 75 Q45 85 55 95" stroke="${hairColor}" stroke-width="1.5" fill="none" />`;
         break;
-      case 'curly':
-        hair = `
-          <circle cx="40" cy="20" r="8" fill="${hairColor}" />
-          <circle cx="50" cy="15" r="8" fill="${hairColor}" />
-          <circle cx="60" cy="20" r="8" fill="${hairColor}" />
-          <circle cx="35" cy="30" r="6" fill="${hairColor}" />
-          <circle cx="65" cy="30" r="6" fill="${hairColor}" />
-        `;
-        break;
-      case 'afro':
-        hair = `<circle cx="50" cy="25" r="25" fill="${hairColor}" />`;
-        break;
-      case 'bald':
-        hair = ''; // No hair
+      case 'balloon-square':
+        balloonPath = `<rect x="25" y="15" width="50" height="50" rx="10" fill="${skinTone}" />`;
+        stringPath = `<path d="M50 65 Q45 80 55 95" stroke="${hairColor}" stroke-width="1.5" fill="none" />`;
         break;
     }
     
-    // Outfit
+    // Balloon decorations (replaces hair style)
+    let decorations = '';
+    switch(avatarConfig.hairStyle) {
+      case 'short': // Dots pattern
+        decorations = `
+          <circle cx="40" cy="30" r="3" fill="${hairColor}" />
+          <circle cx="60" cy="30" r="3" fill="${hairColor}" />
+          <circle cx="40" cy="50" r="3" fill="${hairColor}" />
+          <circle cx="60" cy="50" r="3" fill="${hairColor}" />
+          <circle cx="50" cy="40" r="3" fill="${hairColor}" />
+        `;
+        break;
+      case 'long': // Stripes pattern
+        decorations = `
+          <path d="M30 30 L70 30" stroke="${hairColor}" stroke-width="3" />
+          <path d="M30 40 L70 40" stroke="${hairColor}" stroke-width="3" />
+          <path d="M30 50 L70 50" stroke="${hairColor}" stroke-width="3" />
+        `;
+        break;
+      case 'curly': // Spiral pattern
+        decorations = `
+          <path d="M50 25 C60 30 60 40 50 45 C40 50 40 60 50 65" stroke="${hairColor}" stroke-width="2" fill="none" />
+        `;
+        break;
+      case 'afro': // Stars pattern
+        decorations = `
+          <path d="M40 30 L42 25 L44 30 L39 27 L45 27 Z" fill="${hairColor}" />
+          <path d="M60 30 L62 25 L64 30 L59 27 L65 27 Z" fill="${hairColor}" />
+          <path d="M40 50 L42 45 L44 50 L39 47 L45 47 Z" fill="${hairColor}" />
+          <path d="M60 50 L62 45 L64 50 L59 47 L65 47 Z" fill="${hairColor}" />
+        `;
+        break;
+      case 'bald': // No decoration
+        decorations = '';
+        break;
+    }
+    
+    // Outfit - decorative elements around the balloon
     let outfit = '';
     switch(avatarConfig.outfit) {
       case 'formal':
         outfit = `
-          <rect x="35" y="55" width="30" height="40" rx="2" fill="#000066" />
-          <rect x="45" y="55" width="10" height="40" fill="#ffffff" />
-          <circle cx="50" cy="65" r="2" fill="#000000" />
+          <path d="M20 40 L25 40" stroke="#000066" stroke-width="2" />
+          <path d="M75 40 L80 40" stroke="#000066" stroke-width="2" />
+          <path d="M50 10 L50 15" stroke="#000066" stroke-width="2" />
         `;
         break;
       case 'casual':
         outfit = `
-          <rect x="35" y="55" width="30" height="35" rx="2" fill="#3366cc" />
-          <rect x="35" y="85" width="30" height="10" rx="0" fill="#1a1a1a" />
+          <path d="M50 10 C60 20 70 20 80 30" stroke="#3366cc" stroke-width="1.5" fill="none" />
+          <path d="M50 10 C40 20 30 20 20 30" stroke="#3366cc" stroke-width="1.5" fill="none" />
         `;
         break;
       case 'sporty':
         outfit = `
-          <rect x="35" y="55" width="30" height="30" rx="2" fill="#cc3333" />
-          <rect x="35" y="85" width="30" height="10" rx="0" fill="#333333" />
+          <circle cx="50" cy="10" r="5" fill="#cc3333" />
+          <path d="M45 10 L35 5" stroke="#cc3333" stroke-width="1" />
+          <path d="M55 10 L65 5" stroke="#cc3333" stroke-width="1" />
         `;
         break;
       case 'geek':
         outfit = `
-          <rect x="35" y="55" width="30" height="40" rx="2" fill="#663399" />
-          <text x="50" y="75" font-size="8" text-anchor="middle" fill="white">01010</text>
+          <text x="50" y="40" font-size="10" fill="${hairColor}" text-anchor="middle">${user.username.substring(0, 2)}</text>
         `;
         break;
       case 'cyberpunk':
         outfit = `
-          <rect x="35" y="55" width="30" height="40" rx="2" fill="#000000" />
-          <path d="M35 60 L65 60 L65 65 L35 65 Z" fill="#00ffff" />
-          <path d="M35 75 L65 75 L65 80 L35 80 Z" fill="#ff00ff" />
+          <path d="M25 40 L20 30 L25 20 L20 10" stroke="#00ffff" stroke-width="1" />
+          <path d="M75 40 L80 30 L75 20 L80 10" stroke="#ff00ff" stroke-width="1" />
         `;
         break;
     }
     
-    // Accessories
+    // Accessories - decorative elements on the balloon
     let accessories = '';
+    
     if (selectedAccessories.includes('glasses')) {
       accessories += `
         <circle cx="40" cy="35" r="5" fill="none" stroke="#000000" stroke-width="1" />
@@ -247,41 +271,45 @@ const AvatarEditor: React.FC<AvatarEditorProps> = ({ user, onSave, onCancel }) =
     
     if (selectedAccessories.includes('hat')) {
       accessories += `
-        <path d="M25 25 L75 25 L65 15 L35 15 Z" fill="#444444" />
+        <path d="M30 20 L70 20 L50 5 Z" fill="#444444" />
       `;
     }
     
     if (selectedAccessories.includes('earrings')) {
       accessories += `
-        <circle cx="28" cy="35" r="2" fill="#ffcc00" />
-        <circle cx="72" cy="35" r="2" fill="#ffcc00" />
+        <circle cx="20" cy="40" r="3" fill="#ffcc00" />
+        <circle cx="80" cy="40" r="3" fill="#ffcc00" />
       `;
     }
     
     if (selectedAccessories.includes('necklace')) {
       accessories += `
-        <path d="M40 55 Q50 60 60 55" fill="none" stroke="#ffcc00" stroke-width="1" />
+        <path d="M35 60 Q50 65 65 60" stroke="#ffcc00" stroke-width="1.5" fill="none" />
       `;
     }
     
     if (selectedAccessories.includes('watch')) {
       accessories += `
-        <rect x="30" y="70" width="5" height="8" fill="#333333" />
-        <circle cx="32.5" cy="74" r="3" fill="#ffffff" stroke="#333333" stroke-width="1" />
+        <rect x="20" y="55" width="5" height="8" fill="#333333" />
       `;
     }
     
+    // Face features
+    const face = `
+      <circle cx="40" cy="35" r="2" fill="black" />
+      <circle cx="60" cy="35" r="2" fill="black" />
+      <path d="M45 45 Q50 50 55 45" stroke="black" stroke-width="1.5" fill="none" />
+    `;
+    
     // Combine all parts
-    svg = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+    const svg = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
       <rect width="100" height="100" fill="none" />
-      ${bodyShape}
+      ${balloonPath}
+      ${stringPath}
+      ${decorations}
       ${outfit}
-      ${head}
-      ${hair}
       ${accessories}
-      <circle cx="42" cy="33" r="2" fill="black" />
-      <circle cx="58" cy="33" r="2" fill="black" />
-      <path d="M45 42 Q50 45 55 42" fill="none" stroke="black" stroke-width="1" />
+      ${face}
     </svg>`;
     
     return svg;
@@ -343,7 +371,7 @@ const AvatarEditor: React.FC<AvatarEditorProps> = ({ user, onSave, onCancel }) =
             {/* Basic Tab */}
             <TabsContent value="basics" className="space-y-4">
               <div>
-                <label className="block text-sm font-medium mb-1">Tipo de Corpo:</label>
+                <label className="block text-sm font-medium mb-1">Formato do Balão:</label>
                 <Select 
                   value={avatarConfig.bodyType}
                   onValueChange={(value) => setAvatarConfig({...avatarConfig, bodyType: value})}
@@ -352,15 +380,15 @@ const AvatarEditor: React.FC<AvatarEditorProps> = ({ user, onSave, onCancel }) =
                     <SelectValue placeholder="Selecionar tipo de corpo" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="athletic">Atlético</SelectItem>
-                    <SelectItem value="average">Médio</SelectItem>
-                    <SelectItem value="slim">Esbelto</SelectItem>
+                    <SelectItem value="athletic">Redondo</SelectItem>
+                    <SelectItem value="slim">Oval</SelectItem>
+                    <SelectItem value="average">Quadrado</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
               
               <div>
-                <label className="block text-sm font-medium mb-1">Cabelo:</label>
+                <label className="block text-sm font-medium mb-1">Padrão Decorativo:</label>
                 <Select 
                   value={avatarConfig.hairStyle}
                   onValueChange={(value) => setAvatarConfig({...avatarConfig, hairStyle: value})}
@@ -377,7 +405,7 @@ const AvatarEditor: React.FC<AvatarEditorProps> = ({ user, onSave, onCancel }) =
               </div>
               
               <div>
-                <label className="block text-sm font-medium mb-1">Cor do Cabelo:</label>
+                <label className="block text-sm font-medium mb-1">Cor dos Detalhes:</label>
                 <div className="flex items-center space-x-2">
                   <input 
                     type="color" 
@@ -390,7 +418,7 @@ const AvatarEditor: React.FC<AvatarEditorProps> = ({ user, onSave, onCancel }) =
               </div>
               
               <div>
-                <label className="block text-sm font-medium mb-1">Tom de Pele:</label>
+                <label className="block text-sm font-medium mb-1">Cor do Balão:</label>
                 <div className="flex items-center space-x-2">
                   <input 
                     type="color" 
@@ -406,7 +434,7 @@ const AvatarEditor: React.FC<AvatarEditorProps> = ({ user, onSave, onCancel }) =
             {/* Style Tab */}
             <TabsContent value="style" className="space-y-4">
               <div>
-                <label className="block text-sm font-medium mb-1">Traje:</label>
+                <label className="block text-sm font-medium mb-1">Decoração Externa:</label>
                 <Select 
                   value={avatarConfig.outfit}
                   onValueChange={(value) => setAvatarConfig({...avatarConfig, outfit: value})}
