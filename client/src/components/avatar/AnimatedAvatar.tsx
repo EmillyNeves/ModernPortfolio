@@ -3,7 +3,8 @@ import { motion } from "framer-motion";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { User } from "@shared/schema";
 import { AvatarConfig } from "./AvatarEditor";
-import BalloonAvatar, { BalloonAvatarProps } from "./balloonAvatars";
+import BalloonAvatar from "./balloonAvatars";
+import type { BalloonAvatarProps } from "./balloonAvatars";
 
 interface AnimatedAvatarProps {
   user: User;

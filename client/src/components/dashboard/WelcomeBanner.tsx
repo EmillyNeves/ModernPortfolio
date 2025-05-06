@@ -39,7 +39,8 @@ Complete desafios, acumule XP, suba de nível e desbloqueie novas habilidades.`;
   const formattedText = text.split('\n').map((line, i) => (
     <React.Fragment key={i}>
       {line}
-      {i < text.split('\n').length - 1 && <><br /><br /></>}
+      {i < text.split('\n').length - 1 && <br key={`br-${i}`} />}
+      {i < text.split('\n').length - 1 && <br key={`br2-${i}`} />}
     </React.Fragment>
   ));
 
