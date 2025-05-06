@@ -37,11 +37,15 @@ Complete desafios, acumule XP, suba de nível e desbloqueie novas habilidades.`;
 
   // Transformando as quebras de linha em <br /> para React
   const formattedText = text.split('\n').map((line, i) => (
-    <React.Fragment key={i}>
+    <span key={i} className="line-fragment">
       {line}
-      {i < text.split('\n').length - 1 && <br key={`br-${i}`} />}
-      {i < text.split('\n').length - 1 && <br key={`br2-${i}`} />}
-    </React.Fragment>
+      {i < text.split('\n').length - 1 && (
+        <>
+          <br />
+          <br />
+        </>
+      )}
+    </span>
   ));
 
   return (
